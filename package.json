@@ -1,0 +1,28 @@
+{
+  "name": "cse340-mesh",
+  "version": "1.0.0",
+  "description": "Learnings of Web Backend course",
+  "homepage": "https://github.com/meshackamadi/cse340-mesh#readme",
+  "bugs": {
+    "url": "https://github.com/meshackamadi/cse340-mesh/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meshackamadi/cse340-mesh.git"
+  },
+  "license": "ISC",
+  "author": "Meshack Amadi",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon"
+  },
+  "dependencies": {
+    "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
