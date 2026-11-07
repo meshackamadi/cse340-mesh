@@ -1,13 +1,20 @@
 
 <%- include('partials/header') %>
-<>
+
+<main>
     <h1><%= title %></h1>
     <p>Find and connect with local organizations that are making a difference in our community.</p>
     <p>Join us in making a difference in our community and beyond!</p>
 
     <h2>Welcome to the CSE 340 Service Network!</h2>
-    <img class="image-organization" src="images/brightfuture-logo.png" alt="Bright Future Logo">
-    <img class="image-organization" src="images/greenharvest-logo.png" alt="Green harvest Logo">
-    <img class="image-organization" src="images/unityserve-logo.png" alt="Unity Serve Logo">
+
+    <ul class="organization-list">
+        <% organizations.forEach((organization) => { %>
+            <li class="organization-card">
+                <h3><%= organization.name %></h3>
+                <img class="image-organization" src="<%= organization.image %>" alt="<%= organization.alt %>">
+            </li>
+        <% }); %>
+    </ul>
 </main>
 <%- include('partials/footer') %>

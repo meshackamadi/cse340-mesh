@@ -2,8 +2,13 @@
 <%- include('partials/header') %>
 <main>
     <h1><%= title %></h1>
-    <h2>Welcome to the CSE 340 Service Network!</h2>
     <p>Our mission is to promote service across the world by connecting volunteers with service opportunities in their community.</p>
-    <p>Join us in making a difference in our community and beyond!</p>
+
+    <h2>Current Service Projects</h2>
+    <ul class="project-list">
+        <% serviceProjects.forEach((project) => { %>
+            <li><%= project %></li>
+        <% }); %>
+    </ul>
 </main>
 <%- include('partials/footer') %>

@@ -13,6 +13,31 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+const organizations = [
+  {
+    name: 'Bright Future',
+    image: '/images/brightfuture-logo.png',
+    alt: 'Bright Future logo',
+  },
+  {
+    name: 'Green Harvest',
+    image: '/images/greenharvest-logo.png',
+    alt: 'Green Harvest logo',
+  },
+  {
+    name: 'Unity Serve',
+    image: '/images/unityserve-logo.png',
+    alt: 'Unity Serve logo',
+  },
+];
+
+const serviceProjects = [
+  'Community Garden Initiative',
+  'Neighborhood Cleanup Drive',
+  'Youth Education Support',
+  'Food Pantry Outreach',
+];
+
 /**
   * Configure Express middleware
   */
@@ -36,12 +61,12 @@ app.get('/', async (req, res) => {
 
 app.get('/organizations', async (req, res) => {
     const title = 'Our Partner Organizations';
-    res.render('organizations', { title });
+    res.render('organizations', { title, organizations });
 });
 
 app.get('/projects', async (req, res) => {
     const title = 'Service Projects';
-    res.render('projects', { title });
+    res.render('projects', { title, serviceProjects });
 });
 
 app.get('/categories', async (req, res) => {
