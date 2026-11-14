@@ -7,7 +7,10 @@
     <h2>Current Service Projects</h2>
     <ul class="project-list">
         <% serviceProjects.forEach((project) => { %>
-            <li><%= project %></li>
+            <li>
+                <%= project.project_date %>: <%= project.project_title %>
+                (<em><%= project.organization_name %></em>)
+            </li>
         <% }); %>
     </ul>
 </main>

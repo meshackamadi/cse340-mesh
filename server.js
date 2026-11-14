@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { testConnection } from './src/models/db.js';
 import { getAllOrganizations } from './src/models/organizations.js';
+import { getAllProjects } from './src/models/projects.js';
 
 // Define the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
@@ -31,13 +32,6 @@ const organizations = [
     image: '/images/unityserve-logo.png',
     alt: 'Unity Serve logo',
   },
-];
-
-const serviceProjects = [
-  'Community Garden Initiative',
-  'Neighborhood Cleanup Drive',
-  'Youth Education Support',
-  'Food Pantry Outreach',
 ];
 
 /**
@@ -69,6 +63,7 @@ app.get('/organizations', async (req, res) => {
 });
 
 app.get('/projects', async (req, res) => {
+    const serviceProjects = await getAllProjects();
     const title = 'Service Projects';
     res.render('projects', { title, serviceProjects });
 });
@@ -82,6 +77,8 @@ app.listen(PORT, async () => {
 
   try {
     await testConnection();
+    const projects = await getAllProjects();
+    console.log('Service projects loaded:', projects);
     console.log(`Server is running at http://127.0.0.1:${PORT}`);
     console.log(`Environment: ${NODE_ENV}`);
   } catch (error) {
