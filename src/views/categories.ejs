@@ -3,9 +3,10 @@
 <main>
     <h1><%= title %></h1>
     <p>Find and connect with local organizations that are making a difference in our community.</p>
-    <p> Environmental</p>
-    <p> Educational</p>
-    <p> Community Service </p>
-    <p> Health and Wellness </p>
+    <ul class="project-list">
+        <% categories.forEach((category) => { %>
+            <li><%= category.name %></li>
+        <% }); %>
+    </ul>
 </main>
 <%- include('partials/footer') %>

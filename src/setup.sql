@@ -66,3 +66,78 @@ FROM service_project
 JOIN organization
   ON organization.organization_id = service_project.organization_id
 ORDER BY service_project.project_date, service_project.project_id;
+
+-- ========================================
+-- Service Project Categories
+-- ========================================
+CREATE TABLE category (
+    category_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE service_project_category (
+    project_id INTEGER NOT NULL REFERENCES service_project(project_id) ON DELETE CASCADE,
+    category_id INTEGER NOT NULL REFERENCES category(category_id) ON DELETE CASCADE,
+    PRIMARY KEY (project_id, category_id)
+);
+
+-- ========================================
+-- Insert sample data: Categories
+-- ========================================
+INSERT INTO category (name)
+VALUES
+    ('Environmental'),
+    ('Educational'),
+    ('Community Service'),
+    ('Health and Wellness');
+
+-- Associate every service project with at least one category.
+INSERT INTO service_project_category (project_id, category_id)
+SELECT service_project.project_id, category.category_id
+FROM service_project
+JOIN category
+  ON category.name = CASE
+        WHEN service_project.project_title IN (
+            'Community Garden Planting Day',
+            'Urban Farm Compost Workshop',
+            'Fresh Food Donation Drive',
+            'School Garden Mentoring',
+            'Neighborhood Seed Exchange'
+        ) THEN 'Environmental'
+        WHEN service_project.project_title IN (
+            'Sustainable Housing Workshop',
+            'Youth Tutoring Program',
+            'Volunteer Orientation Day'
+        ) THEN 'Educational'
+        WHEN service_project.project_title IN (
+            'Community Center Renovation',
+            'Safe Playground Construction',
+            'Neighborhood Accessibility Audit',
+            'Community Tool Drive',
+            'Senior Support Outreach',
+            'Local Food Pantry Service Day',
+            'Community Health Fair Support'
+        ) THEN 'Community Service'
+        ELSE 'Health and Wellness'
+    END;
+
+INSERT INTO service_project_category (project_id, category_id)
+SELECT service_project.project_id, category.category_id
+FROM service_project
+JOIN category
+  ON category.name = 'Health and Wellness'
+WHERE service_project.project_title IN (
+    'Senior Support Outreach',
+    'Community Health Fair Support'
+);
+
+-- Verify categories and project associations.
+SELECT
+    category.category_id,
+    category.name AS category_name,
+    COUNT(service_project_category.project_id) AS project_count
+FROM category
+LEFT JOIN service_project_category
+  ON service_project_category.category_id = category.category_id
+GROUP BY category.category_id, category.name
+ORDER BY category.category_id;
