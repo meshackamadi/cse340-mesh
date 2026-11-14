@@ -1,5 +1,11 @@
 import { Pool } from 'pg';
 
+const connectionString = process.env.DB_URL || process.env.DATABASE_URL;
+
+if (!connectionString) {
+    throw new Error('Missing DB_URL or DATABASE_URL environment variable.');
+}
+
 /**
  * Connection pool for PostgreSQL database.
  * 
@@ -12,8 +18,10 @@ import { Pool } from 'pg';
  * postgresql://username:password@host:port/database
  */
 const pool = new Pool({
-    connectionString: process.env.DB_URL,
-    ssl: true
+    connectionString,
+    ssl: process.env.DB_SSL === 'false'
+        ? false
+        : { rejectUnauthorized: false }
 });
 
 /**
@@ -83,7 +91,7 @@ const testConnection = async() => {
         console.log('Database connection successful:', result.rows[0].current_time);
         return true;
     } catch (error) {
-        console.error('Database connection failed:', error.message);
+        console.error('Database connection failed:', error.message || error.code || error);
         throw error;
     }
 };
