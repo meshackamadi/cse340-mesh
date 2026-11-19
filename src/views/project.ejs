@@ -13,6 +13,18 @@
                 <%= project.organization_name %>
             </a>
         </p>
+        <p>
+            <strong>Categories:</strong>
+            <% if (categories.length > 0) { %>
+                <% categories.forEach((category, index) => { %>
+                    <a class="category-tag" href="/category/<%= category.category_id %>">
+                        <%= category.name %>
+                    </a><%= index < categories.length - 1 ? ' ' : '' %>
+                <% }); %>
+            <% } else { %>
+                <span>No categories assigned.</span>
+            <% } %>
+        </p>
     <% } else { %>
         <h1>Service Project Not Found</h1>
         <p>The service project you are looking for does not exist.</p>

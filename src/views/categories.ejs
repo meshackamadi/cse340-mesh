@@ -5,7 +5,11 @@
     <p>Find and connect with local organizations that are making a difference in our community.</p>
     <ul class="project-list">
         <% categories.forEach((category) => { %>
-            <li><%= category.name %></li>
+            <li>
+                <a href="/category/<%= category.category_id %>">
+                    <%= category.name %>
+                </a>
+            </li>
         <% }); %>
     </ul>
 </main>
