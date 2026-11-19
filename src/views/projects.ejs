@@ -4,14 +4,23 @@
     <h1><%= title %></h1>
     <p>Our mission is to promote service across the world by connecting volunteers with service opportunities in their community.</p>
 
-    <h2>Current Service Projects</h2>
-    <ul class="project-list">
-        <% serviceProjects.forEach((project) => { %>
-            <li>
-                <%= project.project_date %>: <%= project.project_title %>
-                (<em><%= project.organization_name %></em>)
-            </li>
-        <% }); %>
-    </ul>
+    <h2>Upcoming Service Projects</h2>
+    <% if (serviceProjects.length > 0) { %>
+        <ul class="project-list">
+            <% serviceProjects.forEach((project) => { %>
+                <li>
+                    <%= project.date || project.project_date %>:
+                    <a href="/project/<%= project.project_id %>"><%= project.title || project.project_title %></a>
+                    (<em>
+                        <a href="/organization/<%= project.organization_id %>">
+                            <%= project.organization_name %>
+                        </a>
+                    </em>)
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No upcoming service projects are currently scheduled.</p>
+    <% } %>
 </main>
 <%- include('partials/footer') %>

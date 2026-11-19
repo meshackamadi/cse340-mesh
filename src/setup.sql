@@ -37,21 +37,21 @@ INSERT INTO service_project (project_title, project_date, organization_id)
 SELECT project_title, project_date, organization_id
 FROM (
     VALUES
-        ('Community Center Renovation', DATE '2026-03-14', 'BrightFuture Builders'),
-        ('Safe Playground Construction', DATE '2026-04-11', 'BrightFuture Builders'),
-        ('Neighborhood Accessibility Audit', DATE '2026-05-09', 'BrightFuture Builders'),
-        ('Sustainable Housing Workshop', DATE '2026-06-13', 'BrightFuture Builders'),
-        ('Community Tool Drive', DATE '2026-07-18', 'BrightFuture Builders'),
-        ('Community Garden Planting Day', DATE '2026-03-21', 'GreenHarvest Growers'),
-        ('Urban Farm Compost Workshop', DATE '2026-04-18', 'GreenHarvest Growers'),
-        ('Fresh Food Donation Drive', DATE '2026-05-16', 'GreenHarvest Growers'),
-        ('School Garden Mentoring', DATE '2026-06-20', 'GreenHarvest Growers'),
-        ('Neighborhood Seed Exchange', DATE '2026-07-25', 'GreenHarvest Growers'),
-        ('Volunteer Orientation Day', DATE '2026-03-28', 'UnityServe Volunteers'),
-        ('Senior Support Outreach', DATE '2026-04-25', 'UnityServe Volunteers'),
-        ('Local Food Pantry Service Day', DATE '2026-05-23', 'UnityServe Volunteers'),
-        ('Youth Tutoring Program', DATE '2026-06-27', 'UnityServe Volunteers'),
-        ('Community Health Fair Support', DATE '2026-08-01', 'UnityServe Volunteers')
+        ('Community Center Renovation', DATE '2027-01-14', 'BrightFuture Builders'),
+        ('Safe Playground Construction', DATE '2027-02-11', 'BrightFuture Builders'),
+        ('Neighborhood Accessibility Audit', DATE '2027-03-09', 'BrightFuture Builders'),
+        ('Sustainable Housing Workshop', DATE '2027-04-13', 'BrightFuture Builders'),
+        ('Community Tool Drive', DATE '2027-05-18', 'BrightFuture Builders'),
+        ('Community Garden Planting Day', DATE '2027-01-21', 'GreenHarvest Growers'),
+        ('Urban Farm Compost Workshop', DATE '2027-02-18', 'GreenHarvest Growers'),
+        ('Fresh Food Donation Drive', DATE '2027-03-16', 'GreenHarvest Growers'),
+        ('School Garden Mentoring', DATE '2027-04-20', 'GreenHarvest Growers'),
+        ('Neighborhood Seed Exchange', DATE '2027-05-25', 'GreenHarvest Growers'),
+        ('Volunteer Orientation Day', DATE '2027-01-28', 'UnityServe Volunteers'),
+        ('Senior Support Outreach', DATE '2027-02-25', 'UnityServe Volunteers'),
+        ('Local Food Pantry Service Day', DATE '2027-03-23', 'UnityServe Volunteers'),
+        ('Youth Tutoring Program', DATE '2027-04-27', 'UnityServe Volunteers'),
+        ('Community Health Fair Support', DATE '2027-05-01', 'UnityServe Volunteers')
 ) AS sample_projects(project_title, project_date, organization_name)
 JOIN organization
   ON organization.name = sample_projects.organization_name;
@@ -66,6 +66,92 @@ FROM service_project
 JOIN organization
   ON organization.organization_id = service_project.organization_id
 ORDER BY service_project.project_date, service_project.project_id;
+
+-- ========================================
+-- Update existing project dates
+-- Run this section in pgAdmin to update projects already in the database.
+-- These dates are all in the future as of November 2026.
+-- ========================================
+-- Set the five nearest upcoming projects first.
+WITH upcoming_projects(project_title, project_date) AS (
+    VALUES
+        ('Community Center Renovation', DATE '2027-01-14'),
+        ('Community Garden Planting Day', DATE '2027-01-21'),
+        ('Volunteer Orientation Day', DATE '2027-01-28'),
+        ('Safe Playground Construction', DATE '2027-02-11'),
+        ('Urban Farm Compost Workshop', DATE '2027-02-18')
+)
+UPDATE service_project
+SET project_date = upcoming_projects.project_date
+FROM upcoming_projects
+WHERE service_project.project_title = upcoming_projects.project_title;
+
+UPDATE service_project
+SET project_date = DATE '2027-01-14'
+WHERE project_title = 'Community Center Renovation';
+
+UPDATE service_project
+SET project_date = DATE '2027-02-11'
+WHERE project_title = 'Safe Playground Construction';
+
+UPDATE service_project
+SET project_date = DATE '2027-03-09'
+WHERE project_title = 'Neighborhood Accessibility Audit';
+
+UPDATE service_project
+SET project_date = DATE '2027-04-13'
+WHERE project_title = 'Sustainable Housing Workshop';
+
+UPDATE service_project
+SET project_date = DATE '2027-05-18'
+WHERE project_title = 'Community Tool Drive';
+
+UPDATE service_project
+SET project_date = DATE '2027-01-21'
+WHERE project_title = 'Community Garden Planting Day';
+
+UPDATE service_project
+SET project_date = DATE '2027-02-18'
+WHERE project_title = 'Urban Farm Compost Workshop';
+
+UPDATE service_project
+SET project_date = DATE '2027-03-16'
+WHERE project_title = 'Fresh Food Donation Drive';
+
+UPDATE service_project
+SET project_date = DATE '2027-04-20'
+WHERE project_title = 'School Garden Mentoring';
+
+UPDATE service_project
+SET project_date = DATE '2027-05-25'
+WHERE project_title = 'Neighborhood Seed Exchange';
+
+UPDATE service_project
+SET project_date = DATE '2027-01-28'
+WHERE project_title = 'Volunteer Orientation Day';
+
+UPDATE service_project
+SET project_date = DATE '2027-02-25'
+WHERE project_title = 'Senior Support Outreach';
+
+UPDATE service_project
+SET project_date = DATE '2027-03-23'
+WHERE project_title = 'Local Food Pantry Service Day';
+
+UPDATE service_project
+SET project_date = DATE '2027-04-27'
+WHERE project_title = 'Youth Tutoring Program';
+
+UPDATE service_project
+SET project_date = DATE '2027-05-01'
+WHERE project_title = 'Community Health Fair Support';
+
+-- Verify that the page will have at least five upcoming projects.
+SELECT project_id, project_title, project_date, organization_id
+FROM public.service_project
+WHERE project_date >= CURRENT_DATE
+ORDER BY project_date, project_id
+LIMIT 5;
 
 -- ========================================
 -- Service Project Categories
